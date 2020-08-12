@@ -169,6 +169,9 @@ class ClusterBuilder(object):
         self.http_load_balancing = None
         self.node_pools = []
         self.settings_valve = None
+        self.is_shared_vpc = None
+        self.cluster_sec_range = None
+        self.services_sec_range = None
        
     def with_name(self, name):
         self.name = name
@@ -214,6 +217,14 @@ class ClusterBuilder(object):
             self.pod_ip_range = pod_ip_range
             self.svc_ip_range = svc_ip_range
         return self
+    
+    def with_shared_vpc(self, is_shared_vpc, cluster_sec_range, services_sec_range):
+        if is_shared_vpc:
+            self.is_shared_vpc = is_shared_vpc
+            self.cluster_sec_range = cluster_sec_range
+            self.services_sec_range = servivces_sec_range
+        return self
+        
     
     def with_legacy_auth(self, legacy_auth):
         self.legacy_auth = legacy_auth
@@ -263,6 +274,14 @@ class ClusterBuilder(object):
                 "useIpAliases": True,
                 "servicesIpv4CidrBlock": cluster_svc_ip_range,
                 "clusterIpv4CidrBlock": cluster_pod_ip_range,
+            }
+            create_cluster_request_body["cluster"]["ipAllocationPolicy"] = ip_allocation_policy
+            
+        if self.is_shared_vpc:
+            ip_allocation_policy = {
+                "useIpAliases": True,
+                "clusterSecondaryRangeName": self.cluster_sec_range,
+                "servicesSecondaryRangeName": self.services_sec_range,
             }
             create_cluster_request_body["cluster"]["ipAllocationPolicy"] = ip_allocation_policy
 
