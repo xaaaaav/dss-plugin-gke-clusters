@@ -62,6 +62,12 @@
             "defaultValue": true
         },
         {
+            "name": "isSharedVpc",
+            "label": "Shared VPC",
+            "type": "BOOLEAN",
+            "defaultValue": "false"
+        },
+        {
             "name": "podIpRange",
             "label": "Pod IP range",
             "description": "Use CIDR block/mask notation, e.g. 10.0.0.0/24 or /24",
@@ -76,6 +82,22 @@
             "type": "STRING",
             "mandatory": false,
             "visibilityCondition": "model.isVpcNative"
+        },
+        {
+            "name": "clusterSecondaryRangeName",
+            "label": "Cluster Secondary Range Name",
+            "description": "Name of Secondary Range for Cluster Services",
+            "type": "STRING",
+            "mandatory": false,
+            "visibilityCondition": "model.isSharedVpc"
+        },
+        {
+            "name": "servicesSecondaryRangeName",
+            "label": "Services Secondary Range Name",
+            "description": "Name of Secondary Range for Pod Services",
+            "type": "STRING",
+            "mandatory": false,
+            "visibilityCondition": "model.isSharedVpc"
         },
         {
             "name": "s-nodes",
