@@ -34,6 +34,9 @@ class MyCluster(Cluster):
         cluster_builder.with_vpc_native_settings(self.config.get("isVpcNative", None),
                                                  self.config.get("podIpRange", ""),
                                                  self.config.get("svcIpRange", ""))
+        cluster_builder.with_shared_vpc(self.config.get("isSharedVpc", None),
+                                        self.config.get("clusterSecondaryRangeName", None),
+                                        self.config.get("servicesSecondaryRangeName", None))
         cluster_builder.with_labels(self.config.get("clusterLabels", {}))
         cluster_builder.with_legacy_auth(self.config.get("legacyAuth", False))
         cluster_builder.with_http_load_balancing(self.config.get("httpLoadBalancing", False))
