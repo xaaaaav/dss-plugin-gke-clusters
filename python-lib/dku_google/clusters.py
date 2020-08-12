@@ -222,7 +222,7 @@ class ClusterBuilder(object):
         if is_shared_vpc:
             self.is_shared_vpc = is_shared_vpc
             self.cluster_sec_range = cluster_sec_range
-            self.services_sec_range = servivces_sec_range
+            self.services_sec_range = services_sec_range
         return self
         
     
