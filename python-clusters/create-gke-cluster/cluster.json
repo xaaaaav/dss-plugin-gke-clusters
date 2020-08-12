@@ -1,0 +1,125 @@
+{
+    "meta" : {
+        "label" : "Create GKE cluster",
+        "description" : "Create GKE clusters",
+        "icon" : "icon-gcp-kubernetes-engine icon-cloud"
+    },
+
+    "architecture" : "KUBERNETES",
+
+    "autoClusterNamePrefix" : "gke-cluster-",
+    "clusterNamePreparationLowercasing" : true,
+
+    "params": [
+        {
+            "name": "connectionInfo",
+            "label": "Connection",
+            "type": "PRESET",
+            "parameterSetId" : "connection-info",
+            "mandatory" : true
+        },
+
+        {
+            "name": "clusterVersion",
+            "label": "Kubernetes version",
+            "type": "STRING",
+            "defaultValue": "latest"
+        },
+        {
+            "name": "s-network",
+            "type": "SEPARATOR",
+            "label": "Networking",
+            "description": "<ul><li>For VPC-native clusters, leave IP ranges empty to let GKE automatically assign them.</li></ul>"
+        },
+        {
+            "name": "inheritFromDSSHost",
+            "label": "Inherit DSS host settings",
+            "type": "BOOLEAN",
+            "description": "Create cluster in same VPC/subnetwork as DSS host",
+            "default": true
+        },
+        {
+            "name": "network",
+            "label": "Network",
+            "description": "Falls back to 'default' if empty",
+            "type": "STRING",
+            "mandatory" : false,
+            "visibilityCondition": "!model.inheritFromDSSHost"
+        },
+        {
+            "name": "subNetwork",
+            "label": "Subnetwork",
+            "description": "Falls back to 'default' if empty",
+            "type": "STRING",
+            "mandatory" : false,
+            "visibilityCondition": "!model.inheritFromDSSHost"
+        },
+        {
+            "name": "isVpcNative",
+            "label": "Make cluster VPC-native",
+            "description": "Allocate pod/service IPs directly from GCP network (RECOMMENDED)",
+            "type": "BOOLEAN",
+            "defaultValue": true
+        },
+        {
+            "name": "podIpRange",
+            "label": "Pod IP range",
+            "description": "Use CIDR block/mask notation, e.g. 10.0.0.0/24 or /24",
+            "type": "STRING",
+            "mandatory": false,
+            "visibilityCondition": "model.isVpcNative"
+        },
+        {
+            "name": "svcIpRange",
+            "label": "Service IP range",
+            "description": "Use CIDR block/mask notation, e.g. 10.0.0.0/24 or /24. MUST be different from pod IP range.",
+            "type": "STRING",
+            "mandatory": false,
+            "visibilityCondition": "model.isVpcNative"
+        },
+        {
+            "name": "s-nodes",
+            "type":"SEPARATOR",
+            "label": "Cluster nodes"
+        },
+        {
+            "name": "nodePools",
+            "label": "Node pools",
+            "description": "Node pools to create in the cluster",
+            "type": "PRESETS",
+            "parameterSetId" : "node-pool-request",
+            "mandatory" : true
+        },
+         {
+            "type":"SEPARATOR",
+            "label": "Advanced options"
+        },
+        {
+            "name": "clusterLabels",
+            "label": "Labels",
+            "type": "KEY_VALUE_LIST",
+            "description": "Annotate all the cluster's related GCP resources"
+        },
+        {
+            "name": "httpLoadBalancing",
+            "label": "HTTP load balancing",
+            "description": "Enable interaction with Google Cloud's load balancing abilities",
+            "type": "BOOLEAN",
+            "defaultValue" : true
+        },
+        {
+            "name": "legacyAuth",
+            "label": "Legacy auth",
+            "description": "Use client certificate instead of GCP auth provider",
+            "type": "BOOLEAN",
+            "defaultValue" : false
+        },
+        {
+            "name": "creationSettingsValve",
+            "label": "Custom creation settings",
+            "description": "Additional settings for the cluster creation call, as JSON",
+            "type": "TEXTAREA",
+            "mandatory" : false
+        }
+    ]
+}

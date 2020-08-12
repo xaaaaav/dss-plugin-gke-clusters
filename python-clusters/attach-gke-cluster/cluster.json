@@ -1,0 +1,39 @@
+{
+    "meta" : {
+        "label" : "Attach GKE cluster",
+        "description" : "Attach to a running GKE cluster",
+        "icon" : "icon-gcp-kubernetes-engine icon-cloud"
+    },
+
+    "architecture" : "KUBERNETES",
+
+    "params": [
+        {
+            "name": "connectionInfo",
+            "label": "Connection",
+            "type": "PRESET",
+            "parameterSetId" : "connection-info",
+            "mandatory" : true
+        },
+        {
+            "name": "clusterId",
+            "label": "GKE cluster name",
+            "type": "STRING",
+            "mandatory" : true
+        },
+        {
+            "name": "userName",
+            "label": "User name",
+            "description": "If not the same as the gcloud user",
+            "type": "STRING",
+            "mandatory" : false
+        },
+        {
+            "name": "legacyAuth",
+            "label": "Legacy auth",
+            "description": "Use client certificate instead of GCP auth provider",
+            "type": "BOOLEAN",
+            "defaultValue" : false
+        }
+    ]
+}
